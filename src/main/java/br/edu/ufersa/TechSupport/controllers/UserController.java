@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import collections.*;
 
 @RestController
 @RequestMapping("/user")
@@ -17,7 +18,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping
-    public List<User> getAll() {
+        public List<User> getAll() {
         return userRepository.findAll();
     }
 
