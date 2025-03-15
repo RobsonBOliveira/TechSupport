@@ -8,6 +8,4 @@ import collections.*;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
-
-    public ListaEncadeada<User> getAll();
 }

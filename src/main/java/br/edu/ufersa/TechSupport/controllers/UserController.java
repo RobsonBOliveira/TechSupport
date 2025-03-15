@@ -18,17 +18,17 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping
-        public List<User> getAll() {
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<User> getById(@PathVariable Long id) {
+    public ResponseEntity<User> getById(@PathVariable Long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
-            return user;
+            return ResponseEntity.ok(user.get());
         } else {
-            return Optional.empty();
+            return ResponseEntity.notFound().build();
         }
     }
 
