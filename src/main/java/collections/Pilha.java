@@ -144,20 +144,20 @@ public class Pilha<T> implements List<T> {
     @Override
     public int lastIndexOf(Object o) {
         return 0;
-    }
+    }//Desnecessário
 
     @Override
     public ListIterator<T> listIterator() {
         return null;
-    }
+    }//Desnecessário
 
     @Override
     public ListIterator<T> listIterator(int index) {
         return null;
-    }
+    }//Desnecessário
 
     @Override
-    public List<T> subList(int fromIndex, int toIndex) {
+    public List<T> subList(int fromIndex, int toIndex) { //Desnecessário
         return List.of();
     }
 
