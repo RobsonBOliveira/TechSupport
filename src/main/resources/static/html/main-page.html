@@ -5,11 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/script.js"></script>
 </head>
 
-<body>
-    <h1>Sova melhor agente do VALORANT!</h1>
-    <img src="../images/sova.png" alt="Sova">
+<body onload="setUsername(), loadNoCompletedTickets(), loadCompletedTickets()">
+    <div id="topbar">
+        <input type="text" id="search-box">
+        <img src="../images/search.png" alt="search" id="icon">
+
+        <div id="user">Olá, </div><img src="../images/user.png" alt="User" id="icon">
+    </div>
+
+    <div id="ticket-lists">
+        <h1>Tickets Pendentes</h1>
+        <div id="no-completed-ticket-list">
+
+        </div>
+        <h1>Tickets Concluídos</h1>
+        <div id="completed-ticket-list">
+
+        </div>
+    </div>
 </body>
 
 </html>

@@ -19,11 +19,11 @@ public class AuthController {
     private UserRepository userRepository;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody User user) {
+    public ResponseEntity<User> login(@RequestBody User user) {
         Optional<User> savedUser = userRepository.findByEmail(user.getEmail());
         if (savedUser.isPresent()) {
             if (savedUser.get().getPassword().equals(user.getPassword())) {
-                return ResponseEntity.ok().build();
+                return ResponseEntity.status(HttpStatus.OK).body(savedUser.get());
             } else {
                 return ResponseEntity.badRequest().build();
             }

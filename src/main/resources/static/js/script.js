@@ -16,6 +16,14 @@ async function login() {
 
     let p = document.querySelector("#popup")
     if (response.status === 200) {
+        const responseJson = await response.json()
+        const id = responseJson.id
+        const allname = responseJson.name.split(" ")
+        const username = allname[0]
+        const role = responseJson.tech
+        sessionStorage.setItem("id", id)
+        sessionStorage.setItem("username", username)
+        sessionStorage.setItem("role", role)
         p.innerHTML = "Login efetuado com sucesso!"
         setTimeout(() => {
             p.innerHTML = ''
@@ -68,4 +76,77 @@ async function register() {
 
 function redirecionar(url) {
     window.location.href = url
+}
+
+function setUsername() {
+    const username = sessionStorage.getItem("username")
+
+    let userDiv = document.querySelector("div#user")
+    userDiv.innerHTML += username
+}
+
+async function loadNoCompletedTickets() {
+    fetch("http://localhost:8080/ticket/false", {
+
+    })
+        .then(response => response.json())
+        .then(tickets => {
+            const ticketList = document.getElementById("no-completed-ticket-list");
+            tickets.forEach(ticket => {
+                const ticketItem = document.createElement("div");
+                if (sessionStorage.getItem("role")) {
+                    if (ticket.techId == sessionStorage.getItem("id")) {
+                        ticketItem.innerHTML = `
+            <a href="chat.html?ticketId=${ticket.id}" class="ticket">
+              Ticket #${ticket.id} - ${ticket.title}
+            </a>
+          `;
+                        ticketList.appendChild(ticketItem);
+                    }
+                } else {
+                    if (ticket.userId == sessionStorage.getItem("id")) {
+                        ticketItem.innerHTML = `
+        <a href="chat.html?ticketId=${ticket.id}" class="ticket">
+          Ticket #${ticket.id} - ${ticket.title}
+        </a>
+      `;
+                        ticketList.appendChild(ticketItem);
+                    }
+                }
+            });
+        })
+        .catch(error => console.error("Erro ao carregar os tickets:", error));
+}
+
+async function loadCompletedTickets() {
+    fetch("http://localhost:8080/ticket/true", {
+
+    })
+        .then(response => response.json())
+        .then(tickets => {
+            const ticketList = document.getElementById("completed-ticket-list");
+            tickets.forEach(ticket => {
+                const ticketItem = document.createElement("div");
+                if (sessionStorage.getItem("role")) {
+                    if (ticket.techId == sessionStorage.getItem("id")) {
+                        ticketItem.innerHTML = `
+            <a href="chat.html?ticketId=${ticket.id}" class="ticket">
+              Ticket #${ticket.id} - ${ticket.title}
+            </a>
+          `;
+                        ticketList.appendChild(ticketItem);
+                    }
+                } else {
+                    if (ticket.userId == sessionStorage.getItem("id")) {
+                        ticketItem.innerHTML = `
+        <a href="chat.html?ticketId=${ticket.id}" class="ticket">
+          Ticket #${ticket.id} - ${ticket.title}
+        </a>
+      `;
+                        ticketList.appendChild(ticketItem);
+                    }
+                }
+            });
+        })
+        .catch(error => console.error("Erro ao carregar os tickets:", error));
 }
