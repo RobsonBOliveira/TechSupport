@@ -17,6 +17,16 @@ public class TicketController {
     @Autowired
     private TicketRepository ticketRepository;
 
+    @GetMapping("/find/{ticketId}")
+    public ResponseEntity<Ticket> find(@PathVariable Long ticketId) {
+        Optional<Ticket> ticket = ticketRepository.findById(ticketId);
+        if (ticket.isPresent()) {
+            return new ResponseEntity<>(ticket.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping("/{completed}")
     public ResponseEntity<List<Ticket>> findNotCompletedTickets(@PathVariable boolean completed) {
         List<Ticket> ticketList = ticketRepository.findByIsCompleted(completed);

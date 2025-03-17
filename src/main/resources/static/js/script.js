@@ -296,6 +296,7 @@ function displayMessage(message, name) {
 
 async function sendMessage(e) {
     e.preventDefault()
+
     const messageInput = document.getElementById("messageInput").value
 
     const message = {
