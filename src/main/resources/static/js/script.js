@@ -338,4 +338,8 @@ async function loadOldMessages() {
             })
         })
 }
+
+async function generatePdf() {
+    fetch()
+}
 conect()

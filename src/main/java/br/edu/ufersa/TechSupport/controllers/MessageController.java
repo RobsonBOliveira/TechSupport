@@ -29,6 +29,14 @@ public class MessageController {
         }
     }
 
+    /*@GetMapping("/pdf/{tickedId}")
+    public ResponseEntity generatePdf(@PathVariable Long ticketId) {
+        List<Message> messages = messageRepository.findByTicketId(ticketId);
+        for (Message message : messages) {
+
+        }
+    }*/
+
     @PostMapping
     public ResponseEntity<Message> createMessage(@RequestBody Message message) {
         Message savedMessage = messageRepository.save(message);
