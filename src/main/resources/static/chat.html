@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/chat.css">
+    <script src="js/sockjs.min.js"></script>
+    <script src="js/stomp.min.js"></script>
+    <script src="js/script.js"></script>
+    <title>Chat</title>
+</head>
+<body onload="setHeader()">
+    <div id="chatContainer">
+        <div id="chatHeader">
+        </div>
+        <div id="chatMessages"></div>
+        <div class="chatInput">
+            <form onsubmit="sendMessage(event)">
+                <input type="text" id="messageInput" placeholder="Digite sua mensagem">
+                <button type="submit">Enviar</button>
+            </form>
+
+        </div>
+    </div>
+</body>
+</html>

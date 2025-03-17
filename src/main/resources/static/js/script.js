@@ -1,3 +1,6 @@
+const socket = new WebSocket('ws://localhost:8080/conect');
+const Client = Stomp.over(socket);
+
 async function login() {
     const email = document.querySelector("#email").value
     const password = document.querySelector("#password").value
@@ -99,7 +102,7 @@ async function loadNoCompletedTickets() {
                         ticketItem.innerHTML = `
             <a href="chat.html?ticketId=${ticket.id}" class="ticket">
               Ticket #${ticket.id} - ${ticket.title}
-            </a>
+            </a> - <button onclick="openChat(${ticket.id}, '${ticket.title}')">Entrar no Chat</button>
           `;
                         ticketList.appendChild(ticketItem);
                     }
@@ -108,7 +111,7 @@ async function loadNoCompletedTickets() {
                         ticketItem.innerHTML = `
         <a href="chat.html?ticketId=${ticket.id}" class="ticket">
           Ticket #${ticket.id} - ${ticket.title}
-        </a>
+        </a> - <button onclick="openChat(${ticket.id}, '${ticket.name}')">Entrar no Chat</button>
       `;
                         ticketList.appendChild(ticketItem);
                     }
@@ -198,3 +201,49 @@ async function setTech(ticketId) {
 
     location.reload()
 }
+
+function openChat(id, name) {
+    sessionStorage.setItem("ticketId", id)
+    sessionStorage.setItem("header", name)
+    redirecionar("http://localhost:8080/chat.html")
+}
+
+function setHeader(){
+    const header = sessionStorage.getItem("header")
+    const chatHeader = document.getElementById("chatHeader")
+    chatHeader.innerHTML = `<h3>${header}</h3>`
+}
+
+function displayMessage(message, name) {
+    const chatMessages = document.getElementById("chatMessages");
+    const messageElement = document.createElement("div");
+
+    messageElement.textContent = name + ": " + message;
+    chatMessages.appendChild(messageElement);
+}
+
+function sendMessage(e){
+    e.preventDefault()
+    const messageInput = document.getElementById("messageInput").value
+
+    const message = {
+        ticketId: sessionStorage.getItem("ticketId"),
+        senderName: sessionStorage.getItem("username"),
+        content: messageInput
+    }
+
+    Client.send("/app/chatmessage", {}, JSON.stringify(message))
+    document.getElementById("messageInput").value = ""
+}
+
+function conect(){
+    Client.connect({}, function(frame){
+        console.log(frame);
+
+        Client.subscribe("/chat", function(message){
+            const chatMessage = JSON.parse(message.body)
+            displayMessage(chatMessage.content, chatMessage.senderName)
+        })
+    })
+}
+conect()

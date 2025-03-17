@@ -13,16 +13,14 @@ public class Message {
     private Long ticketId;
     private String senderName;
     private String content;
-    private Long msgNumber;
 
     public Message() {
     }
 
-    public Message(Long ticketId, String senderName, String content, Long msgNumber) {
+    public Message(Long ticketId, String senderName, String content) {
         this.ticketId = ticketId;
         this.senderName = senderName;
         this.content = content;
-        this.msgNumber = msgNumber;
     }
     public Long getId() {
         return id;
@@ -54,13 +52,5 @@ public class Message {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public Long getMsgNumber() {
-        return msgNumber;
-    }
-
-    public void setMsgNumber(Long msgNumber) {
-        this.msgNumber = msgNumber;
     }
 }
