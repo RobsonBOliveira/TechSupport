@@ -1,11 +1,13 @@
 package collections;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import org.hibernate.internal.util.collections.Stack;
 
-public class Pilha<T> implements List<T> {
+
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
+public class Pilha<T> implements Stack<T> {
     private int sizeMax;
     private Object[] array;
     private int top;
@@ -15,19 +17,19 @@ public class Pilha<T> implements List<T> {
         this.sizeMax = size;
         this.array = new Object[size];
     }
-
-    public void push(T valor) throws Exception {
+    @Override
+    public void push(T valor) {
         if (isFull()){
-            throw new Exception("Pilha Cheia");
+            System.out.println("Pilha Cheia");
         }
         top++;
         array[top] = valor;
     }
-
+    @Override
     @SuppressWarnings("unchecked")
-    public T pop() throws Exception {
+    public T pop() {
         if (isEmpty()){
-            throw new Exception("Pilha vázia");
+            System.out.println("Pilha vázia");
         }
 
         T valor = (T)array[top];
@@ -36,19 +38,36 @@ public class Pilha<T> implements List<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public T peek() throws Exception {
+    @Override
+    public T getCurrent() {
         if (isEmpty()){
-            throw new Exception("Pilha Vazia");
+            System.out.println("Pilha Vazia");
         }
         return (T)array[top];
     }
 
-    public boolean isFull(){
-        return top == sizeMax - 1;
+    @SuppressWarnings("unchecked")
+    @Override
+    public T peek(int i) {
+        if (isEmpty()){
+            System.out.println("Pilha Vazia");
+            return null;
+        }
+        return (T)array[i];
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public T getRoot() {
+        if(isEmpty()){
+            System.out.println("Pilha Vazia");
+            return null;
+        }
+        return (T)array[0];
     }
 
     @Override
-    public int size() { //Retorna a quantidade de itens dentro da pilha
+    public int depth() {
         if(top == -1){
             return 0;
         }
@@ -57,126 +76,34 @@ public class Pilha<T> implements List<T> {
         }
     }
 
+
+    public boolean isFull(){
+        return top == sizeMax - 1;
+    }
+
     @Override
     public boolean isEmpty(){
         return top == -1;
     }
 
     @Override
-    public boolean contains(Object o) { //Retorna true se X elemento existe na pilha.
-        for(int i = 0; i < top; i++){
-            if(array[i].equals(o)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public Iterator<T> iterator() {//Desnecessário, qualquer coisa adiciono depois
-        return null;
-    }
-
-    @Override
-    public Object[] toArray() {//Desnecessário, qualquer coisa adiciono depois
-        return new Object[0];
-    }
-
-    @Override
-    public <T1> T1[] toArray(T1[] a) {//Desnecessário, qualquer coisa adiciono depois
-        return null;
-    }
-
-    @Override
-    public boolean add(T t) { //Retorna true ao adicionar um elemento na pilha (push)
-        try {
-            this.push(t);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    @Override
-    public boolean remove(Object o) { //Não faz sentido de acordo com definnição de pilha
-        return false;
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> c) {//Desnecessário, qualquer coisa adiciono depois
-        return false;
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends T> c) {//Desnecessário, qualquer coisa adiciono depois
-        return false;
-    }
-
-    @Override
-    public boolean addAll(int index, Collection<? extends T> c) {//Desnecessário, qualquer coisa adiciono depois
-        return false;
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {//Desnecessário, qualquer coisa adiciono depois
-        return false;
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {//Desnecessário, qualquer coisa adiciono depois
-        return false;
-    }
-
-    @Override
-    public void clear() { //Limpa a pilha.
+    public void clear() {
         this.top = -1;
-        this.array = new Object[sizeMax];
+        this.array = new Object[this.sizeMax];
     }
 
     @Override
-    public T get(int index) {//Não faz sentido de acordo com definnição de pilha
+    public void visitRootFirst(Consumer<T> consumer) { //Desnecessário
+
+    }
+
+    @Override
+    public <X> X findCurrentFirst(Function<T, X> function) { //Desnecessário
         return null;
     }
 
     @Override
-    public T set(int index, T element) {//Não faz sentido de acordo com definnição de pilha
+    public <X, Y> X findCurrentFirstWithParameter(Y y, BiFunction<T, Y, X> biFunction) { //Desnecessário
         return null;
     }
-
-    @Override
-    public void add(int index, T element) {//Não faz sentido de acordo com definnição de pilha
-
-    }
-
-    @Override
-    public T remove(int index) { //Não faz sentido de acordo com definnição de pilha
-        return null;
-    }
-
-    @Override
-    public int indexOf(Object o) {//Desnecessário qualquer coisa adiciono depois
-        return 0;
-    }
-
-    @Override
-    public int lastIndexOf(Object o) {//Desnecessário qualquer coisa adiciono depois
-        return 0;
-    }
-
-    @Override
-    public ListIterator<T> listIterator() {//Desnecessário qualquer coisa adiciono depois
-        return null;
-    }
-
-    @Override
-    public ListIterator<T> listIterator(int index) {//Desnecessário qualquer coisa adiciono depois
-        return null;
-    }
-
-    @Override
-    public List<T> subList(int fromIndex, int toIndex) { //Desnecessário qualquer coisa adiciono depois
-        return List.of();
-    }
-
-
 }
