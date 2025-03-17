@@ -38,7 +38,9 @@ div#box{
 
 }
 
-div#login{
+div#login,
+div#create-ticket,
+div#register{
     display: flex;
     justify-content: center;
     font-size: 18pt;
