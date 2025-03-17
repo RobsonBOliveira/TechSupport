@@ -9,7 +9,7 @@
     <script src="js/script.js"></script>
     <title>Chat</title>
 </head>
-<body onload="setHeader(), createCompleteButton()">
+<body onload="setHeader(), createCompleteButton(), loadOldMessages()">
     <div id="chatContainer">
         <div id="chatHeader">
         </div>
@@ -17,7 +17,9 @@
         <div class="chatInput">
             <form onsubmit="sendMessage(event)" id="form">
                 <input type="text" id="messageInput" placeholder="Digite sua mensagem">
-                <button type="submit">Enviar</button> <button type="button" id="concluir" class="hidden" onclick="completeTickets()">Concluir</button>
+                <button type="submit">Enviar</button> <button type="button" id="voltar" onclick="redirecionar('http://localhost:8080/html/main-page.html')">Voltar</button>
+                <button type="button" id="concluir" class="hidden" onclick="completeTickets()">Concluir</button> 
+                
             </form>
 
         </div>
