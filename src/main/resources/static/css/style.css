@@ -34,3 +34,46 @@ input#search-box {
     padding: 2px;
     height: 2.5vh;
 }
+
+#create-ticket-btn{
+    display:flex;
+    color: black;
+    border-width: 1px;
+    border-radius: 4px;
+    padding: 2px;
+
+}
+
+#ticket-list > div:nth-child(6) > h1 > button,
+#no-completed-ticket-list > div > h1 > button{
+    color: black;
+    border-width: 1px;
+    border-radius: 4px;
+    background-color: mediumpurple;
+    padding: 1px;
+}
+
+#no-completed-ticket-list > div:nth-child(2) > h1{
+    padding-top: 3px;
+}
+
+#ticket-list > h1:nth-child(1),
+#ticket-list > h1:nth-child(2){
+    color: royalblue;
+}
+
+#ticket-list > h1:nth-child(3),
+#ticket-list > h1:nth-child(4){
+    padding-top: 15px;
+    color: green;
+}
+
+#ticket-list > h1:nth-child(5){
+    padding-top: 15px;
+    color: red;
+}
+
+#ticket-list{
+    padding-left: 30px;
+    padding-top: 20px;
+}
