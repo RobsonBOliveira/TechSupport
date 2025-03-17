@@ -164,7 +164,7 @@ function createCompleteButton() {
 
     if (role == "true") {
         const button = document.querySelector("#concluir")
-        button.classList.remove("hidden");
+        button.classList.remove("hidden")
     }
 }
 
@@ -294,7 +294,7 @@ function displayMessage(message, name) {
     chatMessages.appendChild(messageElement);
 }
 
-function sendMessage(e) {
+async function sendMessage(e) {
     e.preventDefault()
     const messageInput = document.getElementById("messageInput").value
 
@@ -303,6 +303,15 @@ function sendMessage(e) {
         senderName: sessionStorage.getItem("username"),
         content: messageInput
     }
+
+    fetch(`http://localhost:8080/message`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(message)
+    }
+    ).catch(err => console.log(err))
 
     Client.send("/app/chatmessage", {}, JSON.stringify(message))
     document.getElementById("messageInput").value = ""
@@ -317,5 +326,16 @@ function conect() {
             displayMessage(chatMessage.content, chatMessage.senderName)
         })
     })
+}
+
+async function loadOldMessages() {
+    fetch(`http://localhost:8080/message/${sessionStorage.getItem("ticketId")}`, {
+    })
+        .then(response => response.json())
+        .then(messages => {
+            messages.forEach(message => {
+                displayMessage(message.content, message.senderName)
+            })
+        })
 }
 conect()
