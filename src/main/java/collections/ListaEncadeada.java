@@ -97,7 +97,22 @@ public class ListaEncadeada<E> implements List<E> {
 
     @Override
     public Iterator<E> iterator() { //Desnecessário qualquer coisa adiciono depois
-        return null;
+        return new Iterator() {
+            private node current = head; // Começa pelo head
+
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public E next() {
+                if (!hasNext()) throw new IllegalStateException("Sem mais elementos.");
+                E data = current.data;
+                current = current.next;
+                return data;
+            }
+        };
     }
 
     @Override
@@ -185,8 +200,16 @@ public class ListaEncadeada<E> implements List<E> {
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends E> c) { //Desnecessário qualquer coisa adiciono depois
-        return false;
+    public boolean addAll(int index, Collection<? extends E> c) {
+        if (c == null || c.isEmpty()) {
+            return false;
+        }
+
+        for (E element : c) {
+            this.add(element);
+        }
+
+        return true;
     }
 
     @Override

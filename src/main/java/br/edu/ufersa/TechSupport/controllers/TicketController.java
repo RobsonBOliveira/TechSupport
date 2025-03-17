@@ -31,6 +31,7 @@ public class TicketController {
     public ResponseEntity<List<Ticket>> findTicketsWithNoTech() {
         List<Ticket> ticketList = ticketRepository.findByTechId(null);
         if (ticketList.isEmpty()) {
+            System.out.println("Vazio!");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(ticketList, HttpStatus.OK);
@@ -39,11 +40,21 @@ public class TicketController {
 
     @GetMapping("/user/{id}")
     public ResponseEntity<List<Ticket>> getUserTickets(@PathVariable Long id) {
-        ListaEncadeada<Ticket> ticketList = ticketRepository.findByUserId(id);
+        List<Ticket> ticketList = ticketRepository.findByUserId(id);
         if (ticketList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(ticketList, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/all/{id}")
+    public ResponseEntity<Ticket> getById(@PathVariable Long id) {
+        Optional<Ticket> ticket = ticketRepository.findById(id);
+        if (ticket.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(ticket.get());
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -63,16 +74,13 @@ public class TicketController {
         return ResponseEntity.status((HttpStatus.CREATED)).body(ticketSaved);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Ticket> updateTicket(@PathVariable Long id, @RequestBody Ticket newTicket) {
-        Optional<Ticket> oldTicket = ticketRepository.findById(id);
-        if (oldTicket.isPresent()) {
-            oldTicket.get().setTitle(newTicket.getTitle());
-            oldTicket.get().setUserId(newTicket.getUserId());
-            oldTicket.get().setTechId(newTicket.getTechId());
-            oldTicket.get().setCompleted(newTicket.isCompleted());
-            ticketRepository.save(oldTicket.get());
-            return ResponseEntity.ok(oldTicket.get());
+    @PutMapping("/{techId}")
+    public ResponseEntity<Ticket> setTicketTechId(@PathVariable Long techId, @RequestBody Ticket ticket) {
+        Optional<Ticket> savedTicket = ticketRepository.findById(ticket.getId());
+        if (savedTicket.isPresent()) {
+            savedTicket.get().setTechId(techId);
+            ticketRepository.save(savedTicket.get());
+            return ResponseEntity.ok(savedTicket.get());
         } else {
             return ResponseEntity.notFound().build();
         }

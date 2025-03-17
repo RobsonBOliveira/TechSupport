@@ -118,6 +118,29 @@ async function loadNoCompletedTickets() {
         .catch(error => console.error("Erro ao carregar os tickets:", error));
 }
 
+async function loadTicketsWithNoTech() {
+    if (sessionStorage.getItem("role")) {
+        fetch("http://localhost:8080/ticket")
+            .then(response => response.json())
+            .then(tickets => {
+                const ticketList = document.getElementById("ticket-list");
+                ticketList.innerHTML += "<h1>Tickets Não Atendidos</h1>"
+                tickets.forEach(ticket => {
+                    const ticketItem = document.createElement("div");
+                    ticketItem.innerHTML = `
+            <h1 class="ticket" onclick="setTech(${ticket.id})">
+              Ticket #${ticket.id} - ${ticket.title}
+            </h1>
+          `;
+                    ticketList.appendChild(ticketItem);
+                }
+                );
+            }
+            )
+            .catch(error => console.error("Erro ao carregar os tickets:", error));
+    }
+}
+
 async function loadCompletedTickets() {
     fetch("http://localhost:8080/ticket/true", {
 
@@ -149,4 +172,29 @@ async function loadCompletedTickets() {
             });
         })
         .catch(error => console.error("Erro ao carregar os tickets:", error));
+}
+
+async function setTech(ticketId) {
+    response = await fetch(`http://localhost:8080/ticket/all/${ticketId}`)
+        .then(response => response.json())
+        .catch(err => console.log(err)
+        )
+    const id = sessionStorage.getItem("id")
+
+    fetch(`http://localhost:8080/ticket/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "id": response.id,
+            "title": response.title,
+            "userId": response.userId,
+            "techId": id,
+            "completed": response.completed
+        })
+    }
+    ).catch(err => console.log(err))
+
+    location.reload()
 }
