@@ -31,7 +31,7 @@ async function login() {
         setTimeout(() => {
             p.innerHTML = ''
             redirecionar("http://localhost:8080/html/main-page.html")
-        }, 3000)
+        }, 1500)
     } else if (response.status === 403) {
         p.innerHTML = "Senha Incorreta!"
     } else {
@@ -71,7 +71,7 @@ async function register() {
         setTimeout(() => {
             p.innerHTML = ''
             redirecionar("http://localhost:8080/html/login.html")
-        }, 3000)
+        }, 1500)
     } else {
         p.innerHTML = "Usuário já existe!"
     }
@@ -88,6 +88,44 @@ function setUsername() {
     userDiv.innerHTML += username
 }
 
+function createTicketButton() {
+    const role = sessionStorage.getItem("role");
+
+    if (role === "true") {
+        return;
+    }
+
+    const botao = document.createElement("button");
+    botao.innerText = "Criar Novo Ticket"
+    botao.id = "create-ticket-btn"
+    botao.onclick = "redirecionar(http://localhost:8080/html/create-ticket.html)"
+    botao.addEventListener("click", () => {
+        window.location.href = "http://localhost:8080/html/create-ticket.html";
+    });
+
+    document.getElementById("ticket-list").prepend(botao);
+}
+
+async function createTicket() {
+    const title = document.querySelector("#title").value
+    const userId = sessionStorage.getItem("id")
+    fetch("http://localhost:8080/ticket", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "title": title,
+            "userId": userId,
+            "completed": false
+        })
+    }).catch(err => log)
+
+    setTimeout(() => {
+        redirecionar("http://localhost:8080/html/main-page.html")
+    }, 1500)
+}
+
 async function loadNoCompletedTickets() {
     fetch("http://localhost:8080/ticket/false", {
 
@@ -97,21 +135,21 @@ async function loadNoCompletedTickets() {
             const ticketList = document.getElementById("no-completed-ticket-list");
             tickets.forEach(ticket => {
                 const ticketItem = document.createElement("div");
-                if (sessionStorage.getItem("role")) {
+                if (sessionStorage.getItem("role") == "true") {
                     if (ticket.techId == sessionStorage.getItem("id")) {
                         ticketItem.innerHTML = `
-            <a href="chat.html?ticketId=${ticket.id}" class="ticket">
+            <h1 class="ticket">
               Ticket #${ticket.id} - ${ticket.title}
-            </a> - <button onclick="openChat(${ticket.id}, '${ticket.title}')">Entrar no Chat</button>
+             - <button onclick="openChat(${ticket.id}, '${ticket.title}')">Entrar no Chat</button></h1>
           `;
                         ticketList.appendChild(ticketItem);
                     }
                 } else {
                     if (ticket.userId == sessionStorage.getItem("id")) {
                         ticketItem.innerHTML = `
-        <a href="chat.html?ticketId=${ticket.id}" class="ticket">
-          Ticket #${ticket.id} - ${ticket.title}
-        </a> - <button onclick="openChat(${ticket.id}, '${ticket.name}')">Entrar no Chat</button>
+        <h1 class="ticket">
+              Ticket #${ticket.id} - ${ticket.title}
+             - <button onclick="openChat(${ticket.id}, '${ticket.name}')">Entrar no Chat</button></h1>
       `;
                         ticketList.appendChild(ticketItem);
                     }
@@ -147,7 +185,7 @@ async function completeTickets() {
 }
 
 async function loadTicketsWithNoTech() {
-    if (sessionStorage.getItem("role")) {
+    if (sessionStorage.getItem("role") == "true") {
         fetch("http://localhost:8080/ticket")
             .then(response => response.json())
             .then(tickets => {
@@ -156,9 +194,9 @@ async function loadTicketsWithNoTech() {
                 tickets.forEach(ticket => {
                     const ticketItem = document.createElement("div");
                     ticketItem.innerHTML = `
-            <h1 class="ticket" onclick="setTech(${ticket.id})">
+            <h1 class="ticket">
               Ticket #${ticket.id} - ${ticket.title}
-            </h1>
+             - <button onclick="setTech(${ticket.id})">Atender</button></h1>
           `;
                     ticketList.appendChild(ticketItem);
                 }
@@ -181,18 +219,18 @@ async function loadCompletedTickets() {
                 if (sessionStorage.getItem("role")) {
                     if (ticket.techId == sessionStorage.getItem("id")) {
                         ticketItem.innerHTML = `
-            <a href="chat.html?ticketId=${ticket.id}" class="ticket">
+            <h1 class="ticket">
               Ticket #${ticket.id} - ${ticket.title}
-            </a>
+            </h1>
           `;
                         ticketList.appendChild(ticketItem);
                     }
                 } else {
                     if (ticket.userId == sessionStorage.getItem("id")) {
                         ticketItem.innerHTML = `
-        <a href="chat.html?ticketId=${ticket.id}" class="ticket">
-          Ticket #${ticket.id} - ${ticket.title}
-        </a>
+        <h1 class="ticket">
+              Ticket #${ticket.id} - ${ticket.title}
+            </h1>
       `;
                         ticketList.appendChild(ticketItem);
                     }
