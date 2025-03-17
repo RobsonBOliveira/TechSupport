@@ -44,7 +44,8 @@ input#search-box {
 
 }
 
-#ticket-list > div:nth-child(6) > h1 > button,
+
+#ticket-list > div > h1 > button,
 #no-completed-ticket-list > div > h1 > button{
     color: black;
     border-width: 1px;
