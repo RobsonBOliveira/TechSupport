@@ -35,7 +35,6 @@ public class TicketController {
         ListaEncadeada<Ticket> listaEncadeada = new ListaEncadeada<>();
         listaEncadeada.addAll(ticketList);
         if (listaEncadeada.isEmpty()) {
-            System.out.println("Vazio!");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(ticketList, HttpStatus.OK);
