@@ -149,7 +149,7 @@ async function loadNoCompletedTickets() {
                         ticketItem.innerHTML = `
         <h1 class="ticket">
               Ticket #${ticket.id} - ${ticket.title}
-             - <button onclick="openChat(${ticket.id}, '${ticket.name}')">Entrar no Chat</button></h1>
+             - <button onclick="openChat(${ticket.id}, '${ticket.title}')">Entrar no Chat</button></h1>
       `;
                         ticketList.appendChild(ticketItem);
                     }
@@ -157,6 +157,15 @@ async function loadNoCompletedTickets() {
             });
         })
         .catch(error => console.error("Erro ao carregar os tickets:", error));
+}
+
+function createCompleteButton() {
+    const role = sessionStorage.getItem("role");
+
+    if (role == "true") {
+        const button = document.querySelector("#concluir")
+        button.classList.remove("hidden");
+    }
 }
 
 async function completeTickets() {
@@ -216,7 +225,7 @@ async function loadCompletedTickets() {
             const ticketList = document.getElementById("completed-ticket-list");
             tickets.forEach(ticket => {
                 const ticketItem = document.createElement("div");
-                if (sessionStorage.getItem("role")) {
+                if (sessionStorage.getItem("role") == "true") {
                     if (ticket.techId == sessionStorage.getItem("id")) {
                         ticketItem.innerHTML = `
             <h1 class="ticket">

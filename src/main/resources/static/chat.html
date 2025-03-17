@@ -9,15 +9,15 @@
     <script src="js/script.js"></script>
     <title>Chat</title>
 </head>
-<body onload="setHeader()">
+<body onload="setHeader(), createCompleteButton()">
     <div id="chatContainer">
         <div id="chatHeader">
         </div>
         <div id="chatMessages"></div>
         <div class="chatInput">
-            <form onsubmit="sendMessage(event)">
+            <form onsubmit="sendMessage(event)" id="form">
                 <input type="text" id="messageInput" placeholder="Digite sua mensagem">
-                <button type="submit">Enviar</button> <button type="button" onclick="completeTickets()">Concluir</button>
+                <button type="submit">Enviar</button> <button type="button" id="concluir" class="hidden" onclick="completeTickets()">Concluir</button>
             </form>
 
         </div>
