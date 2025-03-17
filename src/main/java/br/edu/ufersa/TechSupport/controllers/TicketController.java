@@ -87,6 +87,7 @@ public class TicketController {
         Optional<Ticket> savedTicket = ticketRepository.findById(ticket.getId());
         if (savedTicket.isPresent()) {
             savedTicket.get().setTechId(techId);
+            savedTicket.get().setCompleted(ticket.isCompleted());
             ticketRepository.save(savedTicket.get());
             return ResponseEntity.ok(savedTicket.get());
         } else {

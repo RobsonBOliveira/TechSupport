@@ -121,6 +121,31 @@ async function loadNoCompletedTickets() {
         .catch(error => console.error("Erro ao carregar os tickets:", error));
 }
 
+async function completeTickets() {
+    const ticketId = sessionStorage.getItem("ticketId")
+    response = await fetch(`http://localhost:8080/ticket/all/${ticketId}`)
+        .then(response => response.json())
+        .catch(err => console.log(err)
+        )
+    const id = sessionStorage.getItem("id")
+    fetch(`http://localhost:8080/ticket/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "id": response.id,
+            "title": response.title,
+            "userId": response.userId,
+            "techId": id,
+            "completed": true
+        })
+    }
+    ).catch(err => console.log(err))
+
+    redirecionar("http://localhost:8080/html/main-page.html")
+}
+
 async function loadTicketsWithNoTech() {
     if (sessionStorage.getItem("role")) {
         fetch("http://localhost:8080/ticket")
@@ -208,7 +233,7 @@ function openChat(id, name) {
     redirecionar("http://localhost:8080/chat.html")
 }
 
-function setHeader(){
+function setHeader() {
     const header = sessionStorage.getItem("header")
     const chatHeader = document.getElementById("chatHeader")
     chatHeader.innerHTML = `<h3>${header}</h3>`
@@ -222,7 +247,7 @@ function displayMessage(message, name) {
     chatMessages.appendChild(messageElement);
 }
 
-function sendMessage(e){
+function sendMessage(e) {
     e.preventDefault()
     const messageInput = document.getElementById("messageInput").value
 
@@ -236,11 +261,11 @@ function sendMessage(e){
     document.getElementById("messageInput").value = ""
 }
 
-function conect(){
-    Client.connect({}, function(frame){
+function conect() {
+    Client.connect({}, function (frame) {
         console.log(frame);
 
-        Client.subscribe("/chat", function(message){
+        Client.subscribe("/chat", function (message) {
             const chatMessage = JSON.parse(message.body)
             displayMessage(chatMessage.content, chatMessage.senderName)
         })
