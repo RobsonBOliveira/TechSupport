@@ -1,0 +1,101 @@
+@import url(https://fonts.googleapis.com/css?family=Poppins);
+
+* {
+    font: normal 13pt 'Poppins';
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100vh;
+
+    background-color: rgb(189, 179, 161);
+    align-content: center;
+    justify-content: center;
+
+    flex-direction: column
+}
+
+p#popup{
+    display:flex;
+    justify-content:center;
+    color: red;
+}
+
+div#box{
+
+    background-color:white;
+    flex-wrap: wrap;
+
+    display: flex;
+
+    width: fit-content;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 8px;
+
+}
+
+div#login{
+    display: flex;
+    justify-content: center;
+    font-size: 18pt;
+    margin-bottom: 20px;
+}
+
+div#content{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+div#content p {
+    display: flex;
+    flex-direction: column;
+}
+
+div#content input[type="text"],
+div#content input[type="password"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+div#content input[type="submit"],
+div#content input[type="button"]{
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+div#content a {
+    text-decoration: none;
+    color: #333;
+}
+
+div#content a:hover {
+    text-decoration: underline;
+}
+
+div#button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+div#content p.radio-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px; /
+}
+
+div#content p.radio-container label {
+    margin: 0;
+}

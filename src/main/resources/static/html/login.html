@@ -4,22 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" href="../css/login.css">
     <script src="../js/script.js"></script>
 </head>
 
 <body>
-    <h2>Login</h2>
-    <p id="popup"></p>
-    <section>
-        <p>Email:
-            <input type="text" id="email">
-        </p>
-        <p>Senha:
-            <input type="password" id="password">
-        </p>
-        <input type="submit" value="Login" onclick="login()">
-        <a href="register.html">Cadastre-se Aqui!</a>
-    </section>
+
+<p id="popup"></p>
+    <div id="box">
+        <section>
+            <div id="login">Login</div>
+            <div id="content"><p>Email:
+                    <input type="text" id="email" placeholder="Digite seu email">
+                </p>
+                <p>Senha:
+                    <input type="password" id="password" placeholder="Digite sua senha">
+                </p>
+                <div id="button-container">
+                    <input type="submit" value="Login" onclick="login()">
+                    <a href="register.html">Cadastre-se Aqui!</a>
+                </div>
+            </div>
+        </section>
+    </div>
 </body>
 
 </html>
