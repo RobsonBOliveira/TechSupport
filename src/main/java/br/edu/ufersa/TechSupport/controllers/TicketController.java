@@ -20,7 +20,9 @@ public class TicketController {
     @GetMapping("/{completed}")
     public ResponseEntity<List<Ticket>> findNotCompletedTickets(@PathVariable boolean completed) {
         List<Ticket> ticketList = ticketRepository.findByIsCompleted(completed);
-        if (ticketList.isEmpty()) {
+        ListaEncadeada<Ticket> listaEncadeada = new ListaEncadeada<>();
+        listaEncadeada.addAll(ticketList);
+        if (listaEncadeada.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(ticketList, HttpStatus.OK);
@@ -30,7 +32,9 @@ public class TicketController {
     @GetMapping
     public ResponseEntity<List<Ticket>> findTicketsWithNoTech() {
         List<Ticket> ticketList = ticketRepository.findByTechId(null);
-        if (ticketList.isEmpty()) {
+        ListaEncadeada<Ticket> listaEncadeada = new ListaEncadeada<>();
+        listaEncadeada.addAll(ticketList);
+        if (listaEncadeada.isEmpty()) {
             System.out.println("Vazio!");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
@@ -41,7 +45,9 @@ public class TicketController {
     @GetMapping("/user/{id}")
     public ResponseEntity<List<Ticket>> getUserTickets(@PathVariable Long id) {
         List<Ticket> ticketList = ticketRepository.findByUserId(id);
-        if (ticketList.isEmpty()) {
+        ListaEncadeada<Ticket> listaEncadeada = new ListaEncadeada<>();
+        listaEncadeada.addAll(ticketList);
+        if (listaEncadeada.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(ticketList, HttpStatus.OK);
@@ -61,7 +67,9 @@ public class TicketController {
     @GetMapping("/tech/{id}")
     public ResponseEntity<List<Ticket>> getTechTickets(@PathVariable Long id) {
         List<Ticket> ticketList = ticketRepository.findByTechId(id);
-        if (ticketList.isEmpty()) {
+        ListaEncadeada<Ticket> listaEncadeada = new ListaEncadeada<>();
+        listaEncadeada.addAll(ticketList);
+        if (listaEncadeada.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(ticketList, HttpStatus.OK);

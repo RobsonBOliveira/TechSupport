@@ -195,12 +195,7 @@ public class ListaEncadeada<E> implements List<E> {
     }
 
     @Override
-    public boolean addAll(Collection<? extends E> c) { //Desnecessário qualquer coisa adiciono depois
-        return false;
-    }
-
-    @Override
-    public boolean addAll(int index, Collection<? extends E> c) {
+    public boolean addAll(Collection<? extends E> c) {
         if (c == null || c.isEmpty()) {
             return false;
         }
@@ -210,6 +205,10 @@ public class ListaEncadeada<E> implements List<E> {
         }
 
         return true;
+    }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends E> c) { throw new UnsupportedOperationException();
     }
 
     @Override
