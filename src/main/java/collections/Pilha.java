@@ -8,9 +8,13 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Pilha<T> implements Stack<T> {
-    private int sizeMax;
+    private int sizeMax = 10;
     private Object[] array;
     private int top;
+    private int size = 0;
+
+    public Pilha() {
+    }
 
     public Pilha(int size){
         this.top = -1;
@@ -23,6 +27,7 @@ public class Pilha<T> implements Stack<T> {
             System.out.println("Pilha Cheia");
         }
         top++;
+        size++;
         array[top] = valor;
     }
     @Override
@@ -34,6 +39,7 @@ public class Pilha<T> implements Stack<T> {
 
         T valor = (T)array[top];
         top--;
+        size--;
         return valor;
     }
 
@@ -83,11 +89,15 @@ public class Pilha<T> implements Stack<T> {
 
     @Override
     public boolean isEmpty(){
-        return top == -1;
+        if(this.top == -1 || this.size == 0)
+            return true;
+        else
+            return false;
     }
 
     @Override
     public void clear() {
+        this.size = 0;
         this.top = -1;
         this.array = new Object[this.sizeMax];
     }

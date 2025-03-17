@@ -340,6 +340,32 @@ async function loadOldMessages() {
 }
 
 async function generatePdf() {
-    fetch()
+    const ticketId = sessionStorage.getItem("ticketId");
+    console.log(ticketId);
+
+    try {
+        const response = await fetch(`http://localhost:8080/message/pdf/${ticketId}`);
+
+        if (!response.ok) {
+            throw new Error("Erro ao gerar PDF");
+        }
+
+        const blob = await response.blob(); // Converte a resposta para um blob (arquivo)
+        const url = window.URL.createObjectURL(blob); // Cria uma URL temporária
+
+        // Cria um link invisível para download
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `conversa_ticket_${ticketId}.pdf`; // Nome do arquivo
+        document.body.appendChild(a);
+        a.click(); // Simula o clique para iniciar o download
+
+        // Remove o link temporário
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
+    } catch (err) {
+        console.error("Erro ao baixar o PDF:", err);
+    }
 }
 conect()
