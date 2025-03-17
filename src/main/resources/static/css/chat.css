@@ -32,6 +32,10 @@ div#chatHeader {
     gap: 5px;
 }
 
+.hidden{
+    display: none;
+}
+
 #messageInput {
     flex: 1;
 }
